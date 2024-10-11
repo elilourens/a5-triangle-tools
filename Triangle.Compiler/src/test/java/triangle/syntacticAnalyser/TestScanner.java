@@ -18,6 +18,9 @@ public class TestScanner {
 	public void testHi() {
 		compileExpectSuccess("/hi.tri");
 	}
+
+	@Test
+	public void testAdd() {compileExpectSuccess("/add.tri");}
 	
 
 	@Test
@@ -40,7 +43,7 @@ public class TestScanner {
 
 	@Test
 	public void testRepeatUntil() {
-		compileExpectFailure("/repeatuntil.tri");
+		compileExpectSuccess("/repeatuntil.tri");
 	}
 	
 	

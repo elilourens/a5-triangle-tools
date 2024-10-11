@@ -67,27 +67,36 @@ public final class Scanner {
 
 	private void scanSeparator() {
 		switch (currentChar) {
-		
-		// comment
-		case '!': 
-			takeIt();
-			
-			// the comment ends when we reach an end-of-line (EOL) or end of file (EOT - for end-of-transmission)
-			while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT))
-				takeIt();
-			if (currentChar == SourceFile.EOL)
-				takeIt();
-			break;
 
-		// whitespace
-		case ' ':
-		case '\n':
-		case '\r':
-		case '\t':
-			takeIt();
-			break;
+			// comment
+			case  '!':
+				takeIt();
+
+				// the comment ends when we reach an end-of-line (EOL) or end of file (EOT - for end-of-transmission)
+				while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT))
+					takeIt();
+				if (currentChar == SourceFile.EOL)
+					takeIt();
+				break;
+
+
+			// whitespace
+			case '#':
+				while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT))
+					takeIt();
+				if (currentChar == SourceFile.EOL)
+					takeIt();
+				break;
+			case ' ':
+			case '\n':
+			case '\r':
+			case '\t':
+				takeIt();
+				break;
+
+
 		}
-	}
+		}
 
 	private Token.Kind scanToken() {
 

@@ -35,14 +35,7 @@ import triangle.abstractSyntaxTrees.aggregates.MultipleRecordAggregate;
 import triangle.abstractSyntaxTrees.aggregates.RecordAggregate;
 import triangle.abstractSyntaxTrees.aggregates.SingleArrayAggregate;
 import triangle.abstractSyntaxTrees.aggregates.SingleRecordAggregate;
-import triangle.abstractSyntaxTrees.commands.AssignCommand;
-import triangle.abstractSyntaxTrees.commands.CallCommand;
-import triangle.abstractSyntaxTrees.commands.Command;
-import triangle.abstractSyntaxTrees.commands.EmptyCommand;
-import triangle.abstractSyntaxTrees.commands.IfCommand;
-import triangle.abstractSyntaxTrees.commands.LetCommand;
-import triangle.abstractSyntaxTrees.commands.SequentialCommand;
-import triangle.abstractSyntaxTrees.commands.WhileCommand;
+import triangle.abstractSyntaxTrees.commands.*;
 import triangle.abstractSyntaxTrees.declarations.ConstDeclaration;
 import triangle.abstractSyntaxTrees.declarations.Declaration;
 import triangle.abstractSyntaxTrees.declarations.FuncDeclaration;
@@ -279,7 +272,11 @@ public class Parser {
 
 		switch (currentToken.kind) {
 
-		case IDENTIFIER: {
+            case INTLITERAL:
+                break;
+            case CHARLITERAL:
+                break;
+            case IDENTIFIER: {
 			Identifier iAST = parseIdentifier();
 			if (currentToken.kind == Token.Kind.LPAREN) {
 				acceptIt();
@@ -299,7 +296,11 @@ public class Parser {
 		}
 			break;
 
-		case BEGIN:
+            case OPERATOR:
+                break;
+            case ARRAY:
+                break;
+            case BEGIN:
 			acceptIt();
 			commandAST = parseCommand();
 			accept(Token.Kind.END);
@@ -326,7 +327,17 @@ public class Parser {
 			commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
 		}
 			break;
+            case REPEAT: {
+                acceptIt();
+                Command cAST = parseSingleCommand();
+                System.out.println("Expecting UNTIL, found: " + currentToken.kind);
+                accept(Token.Kind.UNTIL);
+                Expression eAST = parseExpression();
 
+                finish(commandPos);
+                commandAST = new RepeatCommand(eAST, cAST, commandPos);
+        }
+            break;
 		case WHILE: {
 			acceptIt();
 			Expression eAST = parseExpression();
@@ -337,7 +348,11 @@ public class Parser {
 		}
 			break;
 
-		case SEMICOLON:
+            case CONST:
+                break;
+            case DO:
+                break;
+            case SEMICOLON:
 		case END:
 		case ELSE:
 		case IN:
@@ -347,7 +362,50 @@ public class Parser {
 			commandAST = new EmptyCommand(commandPos);
 			break;
 
-		default:
+            case FUNC:
+                break;
+            case OF:
+                break;
+            case PROC:
+                break;
+            case RECORD:
+                break;
+
+            case THEN:
+                break;
+            case TYPE:
+                break;
+            case UNLESS:
+                break;
+            case VAR:
+                break;
+            case UNTIL:
+                break;
+            case DOT:
+                break;
+            case COLON:
+                break;
+            case COMMA:
+                break;
+            case BECOMES:
+                break;
+            case IS:
+                break;
+            case LPAREN:
+                break;
+            case RPAREN:
+                break;
+            case LBRACKET:
+                break;
+            case RBRACKET:
+                break;
+            case LCURLY:
+                break;
+            case RCURLY:
+                break;
+            case ERROR:
+                break;
+            default:
 			syntacticError("\"%\" cannot start a command", currentToken.spelling);
 			break;
 

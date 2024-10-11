@@ -1,0 +1,16 @@
+let
+    var a: Integer;
+    var b: Integer;
+    var sum: Integer;
+    var product: Integer
+in
+    begin
+        getint(var a);
+        getint(var b);
+        sum := a + b;
+        putint(sum);
+        puteol();
+        product := a * b;
+        putint(product);
+    end
+
